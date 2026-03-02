@@ -23,8 +23,8 @@
   .mascot{width:40px; height:40px; border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.08);}
   .card{background:var(--card); border-radius:20px; box-shadow:0 10px 24px rgba(255,122,198,.15);
         padding:18px; margin:14px 0; border:2px solid var(--ring);}
-  .question{font-size:20px; font-weight:800; margin:8px 0 4px;}
-  .lead{color:var(--muted); margin-top:2px; line-height:1.9;}
+  .question{font-size:20px; font-weight:800; margin:8px 0 4px; white-space:pre-wrap;}
+  .lead{color:var(--muted); margin-top:2px; line-height:1.9; white-space:pre-wrap;}
   .choices{display:grid; gap:10px; margin-top:12px;}
   .choice-btn{width:100%; text-align:left; padding:14px 16px; border-radius:16px; border:2px solid #e7f2ff; background:#fff; cursor:pointer; font-size:16px;}
   .choice-btn:hover{border-color:#cfe7ff; background:#f7fbff;}
@@ -111,6 +111,53 @@
     animation:blink 1.6s ease-in-out infinite;
   }
   @keyframes blink{ 0%,100%{opacity:0.2} 50%{opacity:1} }
+
+  /* ===== 最終章 豪華演出（採用：①②③⑤） ===== */
+
+  /* ① 背景ゴールド系＆枠強化 */
+  #screen-ending{
+    background:linear-gradient(135deg,#fff7d6,#ffe0f5,#dff6ff);
+    border:3px solid gold;
+    box-shadow:0 0 40px rgba(255,215,0,0.4);
+  }
+
+  /* ② タイトル光アニメ */
+  .ending-title{
+    font-size:28px;
+    animation:shine 3s linear infinite;
+  }
+  @keyframes shine{
+    0%{filter:brightness(1)}
+    50%{filter:brightness(1.4)}
+    100%{filter:brightness(1)}
+  }
+
+  /* ③ とせいくん浮遊 */
+  .tosei-img{
+    width: 170px;
+    max-width: 70vw;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(255,182,193,0.6);
+    animation:float 3s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(0px)}
+    50%{transform:translateY(-10px)}
+    100%{transform:translateY(0px)}
+  }
+
+  /* ⑤ 名探偵ランク表示 */
+  .rank-badge{
+    font-size:20px;
+    font-weight:900;
+    padding:10px 18px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#ffd700,#ffb347);
+    color:#6b4000;
+    box-shadow:0 0 20px rgba(255,215,0,0.6);
+    margin-top:10px;
+  }
 </style>
 </head>
 <body>
@@ -162,7 +209,9 @@
       <div id="story" class="lead" style="margin-bottom:8px;"></div>
 
       <div style="text-align:center; margin:10px 0;">
-        <img id="quiz-img" src="mame2.png" alt="とせいくん" style="max-width:100%; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" />
+        <!-- クイズ中の画像を小さめに統一 -->
+        <img id="quiz-img" src="mame2.png" alt="とせいくん"
+             style="width:170px; max-width:70vw; height:auto; border-radius:18px; box-shadow:0 4px 12px rgba(0,0,0,0.1);" />
       </div>
 
       <div id="q-title" class="question"></div>
@@ -180,11 +229,18 @@
     <section id="screen-ending" class="card fade" style="display:none;">
       <div class="ending-wrap">
         <div class="ending-title">🎉 クリアおめでとう！（最終章）</div>
-        <img src="nazotoki2.png" alt="とせいくん" class="mascot" style="width:96px;height:96px;border-radius:24px;" />
+
+        <!-- 最後の画面：クイズ中と同じサイズ＆浮遊アニメ -->
+        <img src="nazotoki2.png" alt="とせいくん" class="tosei-img" />
 
         <div class="ending-lines">
           <div class="ending-badge">とうせいの謎・名探偵認定</div>
-          <div id="ending-text" style="margin-top:8px;"></div>
+
+          <!-- ⑤ 追加：ランク表示 -->
+          <div class="rank-badge">👑 TMCレジェンド・プロフェッショナル認定</div>
+
+          <div id="ending-text" style="margin-top:10px;"></div>
+
           <div style="margin-top:10px;">
             みんなの力が合わさると、もっと強く、もっと優しい医療になるんだね。<br>
             ぼくも、そんなプロフェッショナルになりたいな。ありがとう。
@@ -559,12 +615,13 @@ window.goNext = function(){
   }
 };
 
+/* ③の採用に合わせて、紙吹雪を豪華増量（採用：③を入れる＝演出強化の意味でここも強化） */
 function launchConfetti(){
   confettiEl.innerHTML = "";
-  const colors = ["#ff7ac6","#ffd166","#7bdff2","#c3f0ca","#b5b0ff"];
-  for(let i=0;i<40;i++){
+  const colors = ["#ff7ac6","#ffd700","#ff9ff3","#7bdff2","#c3f0ca","#ffcc66"];
+  for(let i=0;i<80;i++){   // 40 → 80（採用：③の“豪華化”として強化）
     const s = document.createElement('span');
-    const size = 8 + Math.random()*10;
+    const size = 8 + Math.random()*12;
     s.style.width = size + "px";
     s.style.height = (size*1.6) + "px";
     s.style.left = (Math.random()*100) + "%";
